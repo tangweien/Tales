@@ -1,2 +1,2 @@
 def tales1():
-    return "aaa"
+    return "aaa+aaaaaaaaaaa"
