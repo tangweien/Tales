@@ -1,2 +1,0 @@
-def tww():
-    return "psawrf"
