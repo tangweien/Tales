@@ -1,0 +1,106 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "「Untitled1.ipynb」的副本",
+      "provenance": [],
+      "collapsed_sections": [],
+      "authorship_tag": "ABX9TyMEBZXj2M28CwyYz68EOjiY",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/tangweien/Tales/blob/master/Untitled1_ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "1xoy6_PDuisx"
+      },
+      "source": [
+        "# 電腦上面跑要安裝的套件 這邊好像沒辦法跑\n",
+        "!pip install selenium\n",
+        "!pip install driver"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "7Pag8jnSjo6h"
+      },
+      "source": [
+        "# 成功搜尋出東西，並印出搜尋的網頁 \n",
+        "# 但是有點小缺陷 直接搜尋明確地標會無法使用 \n",
+        "# 譬如搜尋夜市 廟口 公園 會挑出很多選項 這個是可行的\n",
+        "# 但是搜尋類似 台北車站 基隆車站 明確標的物 無法使用 在想是不是要用判斷式去執行\n",
+        "# ps:本機測試要下載chromedriver.exe放在同個py裡面 > https://chromedriver.chromium.org/\n",
+        "# 有同學會在這邊測試的話 麻煩可以幫忙新增一下程式碼嗎XD\n",
+        "\n",
+        "from selenium.webdriver import Chrome\n",
+        "from urllib.parse import quote\n",
+        "import time\n",
+        "\n",
+        "a = input(\"請搜尋關鍵字: \")\n",
+        "b = quote(a.encode(\"utf-8\"))\n",
+        "\n",
+        "driver=Chrome(\"./chromedriver\")\n",
+        "driver.get(f\"https://www.google.com/maps/place?q={b}\")\n",
+        "ps=driver.find_elements_by_class_name(\"a4gq8e-aVTXAb-haAclf-jRmmHf-hSRGPd\")\n",
+        "\n",
+        "for ps1 in ps:\n",
+        "    url=ps1.get_attribute(\"href\")\n",
+        "    time.sleep(2)\n",
+        "    # print(url)\n",
+        "    driver.get(url)\n",
+        "    driver.find_element_by_class_name(\"h0ySl-wcwwM-E70qVe-list\").click() # 點擊 進入評論網頁\n",
+        "    time.sleep(2)\n",
+        "\n",
+        "    win=1\n",
+        "    while win<=2:\n",
+        "        ps1=driver.find_elements_by_class_name(\"ODSEW-ShBeI-title\")\n",
+        "        ps2=driver.find_elements_by_class_name(\"ODSEW-ShBeI-text\")\n",
+        "\n",
+        "        pane = driver.find_element_by_xpath('//*[@id=\"pane\"]/div/div[1]/div/div/div[2]')\n",
+        "        driver.execute_script(\"arguments[0].scrollTop = arguments[0].scrollHeight\", pane)\n",
+        "        time.sleep(2)\n",
+        "\n",
+        "        for sp1 in ps1:\n",
+        "            print(sp1.text)\n",
+        "            for sp2 in ps2:\n",
+        "                print(sp2.text)\n",
+        "    win+=2"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "s8UngIt01g1s"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
