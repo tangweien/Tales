@@ -23,12 +23,9 @@ for ps1 in ps:
         win+=1
 
     ps1=driver.find_elements_by_class_name("ODSEW-ShBeI-title") # 用戶名稱
-    # ps2=driver.find_elements_by_class_name("ODSEW-ShBeI-text")  # 用戶評論
-    for x in ps1:
-        print(x.text) # 用戶名稱
-    print("=分隔線=")
-    # for y in ps2:
-    #     print(y.text) # 用戶評論
+    ps2=driver.find_elements_by_class_name("ODSEW-ShBeI-text")  # 用戶評論
+    for i in range(len(ps1)):
+            print(ps1[i].text + '---' + ps2[i].text)
 
     # driver.back() # 回上一頁
     # driver.back() # 回上一頁
